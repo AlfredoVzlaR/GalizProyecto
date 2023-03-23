@@ -16,6 +16,7 @@ public class Expediente {
     private String diagnosticoPiel;
     private String cosmeticosUso;
     private String antecedentesPersonales;
+    private String telefonoCliente;
     
 
     public Expediente() {
@@ -80,6 +81,15 @@ public class Expediente {
     public void setAntecedentesPersonales(String antecedentesPersonales) {
         this.antecedentesPersonales = antecedentesPersonales;
     }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+    
 
     @Override
     public int hashCode() {

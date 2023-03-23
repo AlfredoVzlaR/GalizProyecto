@@ -21,6 +21,7 @@ public class ExpedienteConverter extends AbstractConverter<Expediente, Expedient
             expediente.setAntecedentesPersonales(dto.getAntecedentesPersonales());
             expediente.setCosmeticosUso(dto.getCosmeticosUso());
             expediente.setDiagnosticoPiel(dto.getDiagnosticoPiel());
+            expediente.setTelefonoCliente(dto.getTelefonoCliente());
             return expediente;
         }catch(Exception e){
             return null;
@@ -36,6 +37,7 @@ public class ExpedienteConverter extends AbstractConverter<Expediente, Expedient
         dto.setAntecedentesPersonales(entity.getAntecedentesPersonales());
         dto.setCosmeticosUso(entity.getCosmeticosUso());
         dto.setDiagnosticoPiel(entity.getDiagnosticoPiel());
+        dto.setTelefonoCliente(entity.getTelefonoCliente());
         return dto;
     }
     

@@ -9,6 +9,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import javax.persistence.EntityManager;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -69,5 +70,10 @@ public class ConexionMongo implements IConexionBD{
             System.err.println(ex.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public EntityManager crearEntityManager() throws IllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

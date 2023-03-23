@@ -4,9 +4,13 @@
  */
 package frm;
 
+import DTO.ClienteDTO;
 import DTO.ExpedienteDTO;
+import controles.CtrlClientes;
 import controles.ctrlExpedientes;
 import java.awt.Color;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 
@@ -18,21 +22,57 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
 
     ExpedienteDTO dto = new ExpedienteDTO();
     ctrlExpedientes ctrl;
+    DefaultComboBoxModel<ClienteDTO> clientesComboBoxModel = new DefaultComboBoxModel<>();
+    List<ClienteDTO> listaClientes = null;
+    CtrlClientes ctrlClientes;
     /**
      * Creates new form FrmDatosExpedientes
      */
     public FrmDatosExpedientes() {
         initComponents();
+        ctrlClientes = new CtrlClientes();
         jPanel2.setBackground(Color.decode("#ADD8E6"));
+        llenarComboBox();
     }
     
-    public void setearDatos(String pato, String perso, String cos, String piel, String cliente){
+    public DefaultComboBoxModel clientesComboBoxModel(List<ClienteDTO> listaClientes) {
+        DefaultComboBoxModel<ClienteDTO> defaultComboBoxModel = new DefaultComboBoxModel<>();
+        if (listaClientes != null) {
+            // Para cada elemento de la Lista
+            for (int i = 0; i < listaClientes.size(); i++) {
+                // Agregalo a la instancia de la clase DefaultComboBoxModel
+                defaultComboBoxModel.addElement(listaClientes.get(i));
+            }
+            return defaultComboBoxModel;
+        }
+        return null;
+    }
+    private void llenarComboBox() {
+        listaClientes = ctrlClientes.consultarClientes();
+        clientesComboBoxModel.addAll(listaClientes);
+    }
+    
+    private String telefonoSeleccionado(){
+        int indice = comboBoxClientes.getSelectedIndex();
+        
+        if (indice != -1) {
+            String telefono = comboBoxClientes.getModel().getElementAt(indice).getTelefono();
+            return telefono;
+        } else {
+            return null;
+        }
+    }
+    private ClienteDTO cliente(String telefono){
+        ClienteDTO clienteRegistrar = ctrlClientes.consultarCliente(telefono);
+        return clienteRegistrar;
+    }
+    
+    public void setearDatos(String pato, String perso, String cos, String piel, ClienteDTO cliente){
         areaPatologicos.setText(pato);
         areaPersonales.setText(perso);
         areaPiel.setText(piel);
         areaCosmeticos.setText(cos);
-        txtNombreClienteDatos.setText(cliente);
-        txtNombreClienteDatos.setEditable(false);
+        clientesComboBoxModel.addElement(cliente);
     }
     public void desSetear(){
         dto.setAntecedentesPatologicos("");
@@ -45,12 +85,20 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     private void agregarExpediente(){
         
         ctrl = new ctrlExpedientes();
+        if(ctrl.consultarExpediente(telefonoSeleccionado())!=null){
+            actualizarExpediente();
+            return;
+        }
         if(areaCosmeticos.getText().isEmpty()&&areaPatologicos.getText().isEmpty()&&areaPersonales.getText().isEmpty()
-                &&areaPiel.getText().isEmpty()&&txtNombreClienteDatos.getText().isEmpty()){
+                &&areaPiel.getText().isEmpty()&&clientesComboBoxModel.getSelectedItem()==null){
             JOptionPane.showMessageDialog(this, "No hay datos que añadir","Error",JOptionPane.ERROR_MESSAGE);       
             return;
         }
-        
+        if(clientesComboBoxModel.getSelectedItem()!=null){
+            ClienteDTO cDTO = cliente(telefonoSeleccionado());
+            dto.setNombreCliente(cDTO.getNombre());
+            dto.setTelefonoCliente(cDTO.getTelefono());
+        }
         if(!areaPatologicos.getText().isEmpty()){
             dto.setAntecedentesPatologicos(areaPatologicos.getText());
         }
@@ -63,12 +111,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         if(!areaPiel.getText().isEmpty()){
             dto.setDiagnosticoPiel(areaPiel.getText());
         }
-        if(txtNombreClienteDatos.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "El expediente debe de asociarse a un cliente","Error",JOptionPane.ERROR_MESSAGE);       
-            return;
-        }else{
-            dto.setNombreCliente(txtNombreClienteDatos.getText());
-        }
+        
         if(ctrl.agregarExpediente(dto)){
             JOptionPane.showMessageDialog(this, "El expediente se registró correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);       
             desSetear();
@@ -78,6 +121,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         
     }
     private void actualizarExpediente(){
+        
         ctrl = new ctrlExpedientes();
         
         if(!areaPatologicos.getText().isEmpty()){
@@ -92,13 +136,13 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         if(!areaPiel.getText().isEmpty()){
             dto.setDiagnosticoPiel(areaPiel.getText());
         }
-        if(!txtNombreClienteDatos.getText().isEmpty()){
-            dto.setNombreCliente(txtNombreClienteDatos.getText());
+        if(clientesComboBoxModel.getElementAt(0)!=null){
+            dto.setNombreCliente(clientesComboBoxModel.getElementAt(0).getNombre());
+            dto.setTelefonoCliente(clientesComboBoxModel.getElementAt(0).getTelefono());
         }
         if(ctrl.actualizarExpediente(dto)){
             JOptionPane.showMessageDialog(this, "El expediente se actualizó correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);       
             limpiar();
-            txtNombreClienteDatos.setEditable(true);
         }
     }
     
@@ -106,11 +150,14 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         ctrl = new ctrlExpedientes();
         
         if(areaCosmeticos.getText().isEmpty()&&areaPatologicos.getText().isEmpty()&&areaPersonales.getText().isEmpty()
-                &&areaPiel.getText().isEmpty()&&txtNombreClienteDatos.getText().isEmpty()){
+                &&areaPiel.getText().isEmpty()&&clientesComboBoxModel.getSize()==0){
             JOptionPane.showMessageDialog(this, "No hay expediente que eliminar","Error",JOptionPane.ERROR_MESSAGE);       
             return;
         }
-        
+        if(clientesComboBoxModel.getElementAt(0)!=null){
+            dto.setNombreCliente(clientesComboBoxModel.getElementAt(0).getNombre());
+            dto.setTelefonoCliente(clientesComboBoxModel.getElementAt(0).getTelefono());
+        }
         if(!areaPatologicos.getText().isEmpty()){
             dto.setAntecedentesPatologicos(areaPatologicos.getText());
         }
@@ -123,9 +170,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         if(!areaPiel.getText().isEmpty()){
             dto.setDiagnosticoPiel(areaPiel.getText());
         }
-        if(!txtNombreClienteDatos.getText().isEmpty()){
-            dto.setNombreCliente(txtNombreClienteDatos.getText());
-        }
+        
         if(ctrl.eliminarExpediente(dto)){
             JOptionPane.showMessageDialog(this, "El expediente se eliminó correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);       
             limpiar();
@@ -134,11 +179,15 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     }
     
     private void limpiar(){
-        txtNombreClienteDatos.setText("");
         areaCosmeticos.setText("");
         areaPatologicos.setText("");
         areaPersonales.setText("");
         areaPiel.setText("");
+        if(clientesComboBoxModel.getSize()>1){
+            
+        }else{
+            llenarComboBox();
+        }
     }
 
     /**
@@ -162,16 +211,16 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         areaPiel = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        txtNombreClienteDatos = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         areaCosmeticos = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        comboBoxClientes = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos expedientes");
@@ -228,6 +277,8 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
             }
         });
 
+        comboBoxClientes.setModel(clientesComboBoxModel);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -246,10 +297,10 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1)
-                            .addComponent(txtNombreClienteDatos)
                             .addComponent(jScrollPane2)
                             .addComponent(jScrollPane3)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                            .addComponent(comboBoxClientes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnGuardar)
                         .addGap(18, 18, 18)
@@ -261,10 +312,10 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreClienteDatos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(comboBoxClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -286,17 +337,28 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
                     .addComponent(btnEliminar)
                     .addComponent(btnCancelar)
                     .addComponent(btnGuardar))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Menú principal");
+
+        jMenuItem1.setText("Menú principal");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Expedientes");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Expedientes");
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Salir");
-        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -316,7 +378,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(txtNombreClienteDatos.isEditable()){
+        if(clientesComboBoxModel.getSize()>1){
             agregarExpediente();
         }else{
             actualizarExpediente();
@@ -332,6 +394,16 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         eliminarExpediente();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmExpedientes frm = new FrmExpedientes();
+        frm.setVisible(true);
+        dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -376,20 +448,20 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     public static javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<ClienteDTO> comboBoxClientes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField txtNombreClienteDatos;
     // End of variables declaration//GEN-END:variables
 }

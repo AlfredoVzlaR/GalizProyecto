@@ -12,7 +12,6 @@ import conexion.IConexionBD;
 import implementacion.ExpedientesDAO;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,8 +46,15 @@ public class ctrlExpedientes {
         }
         return listaExpedienteDTO;
     }
-    public ExpedienteDTO consultarExpediente(String cliente){
-        expedientes = expedienteDAO.consultarExpediente(cliente);
+    public List<ExpedienteDTO> consultarExpedientesCliente(String cliente){
+        listaExpedientes.addAll(expedienteDAO.consultarExpedientesCliente(cliente));
+        for(int i = 0;i<listaExpedientes.size();i++){
+            listaExpedienteDTO.add(i, converter.fromEntity(listaExpedientes.get(i)));
+        }
+        return listaExpedienteDTO;
+    }
+    public ExpedienteDTO consultarExpediente(String telefono){
+        expedientes = expedienteDAO.consultarExpediente(telefono);
         if(expedientes==null){
             System.out.println("No hay");
             return null;

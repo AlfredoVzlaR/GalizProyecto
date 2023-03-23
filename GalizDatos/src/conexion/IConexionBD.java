@@ -5,6 +5,7 @@
 package conexion;
 
 import com.mongodb.client.MongoDatabase;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -13,4 +14,5 @@ import com.mongodb.client.MongoDatabase;
 public interface IConexionBD {
     MongoDatabase ConexionBD();
     MongoDatabase crearConexion();
+    EntityManager crearEntityManager()throws IllegalStateException;
 }

@@ -4,7 +4,9 @@
  */
 package frm;
 
+import DTO.ClienteDTO;
 import DTO.ExpedienteDTO;
+import controles.CtrlClientes;
 import controles.ctrlExpedientes;
 import java.awt.Color;
 import java.util.LinkedList;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmExpedientes extends javax.swing.JFrame {
     ctrlExpedientes ctrl;
+    CtrlClientes ctrlClientes;
     /**
      * Creates new form FrmExpedientes
      */
@@ -30,7 +33,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
         llenarTabla();
     }
     
-    private void llenarTabla(){
+    public void llenarTabla(){
         ctrl = new ctrlExpedientes();
         List<ExpedienteDTO> lista = new LinkedList<>();
         lista.addAll(ctrl.consultarExpedientes());
@@ -38,20 +41,24 @@ public class FrmExpedientes extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         lista.forEach(expediente
                 -> {
-            Object[] fila = new Object[1];
+            Object[] fila = new Object[2];
             fila[0] = expediente.getNombreCliente();
+            fila[1]= expediente.getTelefonoCliente();
             modeloTabla.addRow(fila);
         });
     }
     private void buscarCliente(){
         ctrl = new ctrlExpedientes();
-        ExpedienteDTO dto = ctrl.consultarExpediente(txtClienteBuscar.getText());
+        List<ExpedienteDTO> dto = ctrl.consultarExpedientesCliente(txtClienteBuscar.getText());
         if(dto!=null){
             DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaExpedientes.getModel();
             modeloTabla.setRowCount(0);
+            dto.forEach(expediente
+                -> {
             Object[] fila = new Object[1];
-            fila[0] = dto.getNombreCliente();
+            fila[0] = expediente.getNombreCliente();
             modeloTabla.addRow(fila);
+        });
         }else{
             JOptionPane.showMessageDialog(this, "No hay expediente de ese cliente","Error",JOptionPane.ERROR_MESSAGE);       
             
@@ -62,7 +69,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
         int indice = this.tablaExpedientes.getSelectedRow();
         if (indice != -1) {
             DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaExpedientes.getModel();
-            int indiceColumnaId = 0;
+            int indiceColumnaId = 1;
             String clientes = modeloTabla.getValueAt(indice, indiceColumnaId).toString();
             return clientes;
         } else {
@@ -70,18 +77,20 @@ public class FrmExpedientes extends javax.swing.JFrame {
         }
     }
     private void mostrarDetalles(){
+        ctrlClientes = new CtrlClientes();
         ExpedienteDTO ex = ctrl.consultarExpediente(clienteSeleccionado());
         
         String pato = ex.getAntecedentesPatologicos();
         String perso = ex.getAntecedentesPersonales();
         String piel = ex.getDiagnosticoPiel();
         String uso = ex.getCosmeticosUso();
-        String cliente = ex.getNombreCliente();
+        ClienteDTO cliente = ctrlClientes.consultarCliente(clienteSeleccionado());
+        
         
         FrmDatosExpedientes frm = new FrmDatosExpedientes();
+        frm.clientesComboBoxModel.removeAllElements();
         frm.setearDatos(pato, perso, uso, piel, cliente);
         frm.setVisible(true);
-        
     }
 
     /**
@@ -108,6 +117,12 @@ public class FrmExpedientes extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 14)); // NOI18N
         jLabel1.setText("Cliente:");
 
+        txtClienteBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClienteBuscarActionPerformed(evt);
+            }
+        });
+
         btnBuscarExpedienteCliente.setText("Buscar");
         btnBuscarExpedienteCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,14 +143,14 @@ public class FrmExpedientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre cliente"
+                "Nombre cliente", "Teléfono cliente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -154,7 +169,6 @@ public class FrmExpedientes extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaExpedientes);
-        tablaExpedientes.getAccessibleContext().setAccessibleParent(null);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -232,6 +246,10 @@ public class FrmExpedientes extends javax.swing.JFrame {
         mostrarDetalles();
         dispose();
     }//GEN-LAST:event_tablaExpedientesMousePressed
+
+    private void txtClienteBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClienteBuscarActionPerformed
 
     /**
      * @param args the command line arguments

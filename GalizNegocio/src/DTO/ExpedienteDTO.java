@@ -16,6 +16,7 @@ public class ExpedienteDTO {
     private String antecedentesPersonales;
     private String cosmeticosUso;
     private String diagnosticoPiel;
+    private String telefonoCliente;
 
     public ExpedienteDTO(String nombreCliente, String antecedentesPatologicos, String antecedentesPersonales, String cosmeticosUso, String diagnosticoPiel) {
         this.nombreCliente = nombreCliente;
@@ -24,8 +25,6 @@ public class ExpedienteDTO {
         this.cosmeticosUso = cosmeticosUso;
         this.diagnosticoPiel = diagnosticoPiel;
     }
-
-    
 
     public ExpedienteDTO() {
     }
@@ -69,6 +68,15 @@ public class ExpedienteDTO {
     public void setDiagnosticoPiel(String diagnosticoPiel) {
         this.diagnosticoPiel = diagnosticoPiel;
     }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+    
 
     @Override
     public int hashCode() {

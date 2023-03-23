@@ -57,11 +57,17 @@ public class ExpedientesDAO{
         coleccion.deleteOne(new Document().append("cliente", lista.get(0).getCliente()));
         return coleccion.find(new Document().append("cliente", new Document().append("$eq", expediente.getCliente()))).into(lista)!=null;
     }
+    public List<Expediente> consultarExpedientesCliente(String nombreCliente){
+        MongoCollection<Expediente> coleccion = this.getCollection();
+        List<Expediente> listaExpedientes = new LinkedList<>();
+        coleccion.find(new Document().append("cliente", new Document().append("$eq", nombreCliente))).into(listaExpedientes);
+        return listaExpedientes;
+    }
 
-    public Expediente consultarExpediente(String nombreCliente) {
+    public Expediente consultarExpediente(String telefono) {
         MongoCollection<Expediente> coleccion = this.getCollection();
         List<Expediente> lista = new LinkedList<>();
-        coleccion.find(new Document().append("cliente", new Document().append("$eq", nombreCliente))).into(lista);
+        coleccion.find(new Document().append("telefonoCliente", new Document().append("$eq", telefono))).into(lista);
         if(lista.isEmpty()){
             return null;
         }
