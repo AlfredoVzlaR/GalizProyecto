@@ -26,14 +26,13 @@ public class FrmExpedientes extends javax.swing.JFrame {
      */
     public FrmExpedientes() {
         initComponents();
-        panel.setBackground(Color.decode("#7FFFD4"));
+        panel.setBackground(Color.WHITE);
         tablaExpedientes.setRowHeight(25);
         tablaExpedientes.setBackground(Color.WHITE);
-        btnBuscarExpedienteCliente.setBackground(Color.decode("#F0FFFF"));
         llenarTabla();
     }
     
-    public void llenarTabla(){
+    private void llenarTabla(){
         ctrl = new ctrlExpedientes();
         List<ExpedienteDTO> lista = new LinkedList<>();
         lista.addAll(ctrl.consultarExpedientes());
@@ -55,8 +54,9 @@ public class FrmExpedientes extends javax.swing.JFrame {
             modeloTabla.setRowCount(0);
             dto.forEach(expediente
                 -> {
-            Object[] fila = new Object[1];
+            Object[] fila = new Object[2];
             fila[0] = expediente.getNombreCliente();
+            fila[1] = expediente.getTelefonoCliente();
             modeloTabla.addRow(fila);
         });
         }else{
@@ -108,6 +108,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
         btnBuscarExpedienteCliente = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaExpedientes = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -123,6 +124,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
             }
         });
 
+        btnBuscarExpedienteCliente.setBackground(new java.awt.Color(232, 244, 255));
         btnBuscarExpedienteCliente.setText("Buscar");
         btnBuscarExpedienteCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +172,9 @@ public class FrmExpedientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaExpedientes);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Expedientes");
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -177,26 +182,32 @@ public class FrmExpedientes extends javax.swing.JFrame {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarExpedienteCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnBuscarExpedienteCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(169, 169, 169)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarExpedienteCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(110, 110, 110))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
@@ -289,6 +300,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarExpedienteCliente;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
