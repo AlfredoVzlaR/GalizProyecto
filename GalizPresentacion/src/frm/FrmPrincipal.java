@@ -1,5 +1,8 @@
 package frm;
 
+import java.awt.Color;
+import javax.swing.UIManager;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +20,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
+        menuAgregarExpediente.setOpaque(true);
+        menuAgregarExpediente.setBackground(Color.decode("#FFC5C5"));
+        menuConsultarExpedientes.setOpaque(true);
+        menuConsultarExpedientes.setBackground(Color.decode("#FFC5C5"));
+        Menu.setOpaque(true);
+        Menu.setBackground(Color.decode("#C5FFF3"));
+        menuExpediente.setOpaque(true);
+        menuExpediente.setBackground(Color.decode("#C5FFF3"));
+        UIManager.put("MenuBar.background", Color.RED);
     }
 
     /**
@@ -32,7 +44,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         Menu = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        menuExpediente = new javax.swing.JMenu();
         menuAgregarExpediente = new javax.swing.JMenuItem();
         menuConsultarExpedientes = new javax.swing.JMenuItem();
 
@@ -51,36 +63,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         menuBar.setBackground(new java.awt.Color(255, 216, 206));
 
-        Menu.setBackground(new java.awt.Color(184, 222, 255));
+        Menu.setBackground(new java.awt.Color(204, 255, 255));
+        Menu.setBorder(null);
         Menu.setText("Menu");
 
-        jMenu1.setText("Expedientes");
+        menuExpediente.setBackground(new java.awt.Color(204, 255, 255));
+        menuExpediente.setText("Expedientes");
 
+        menuAgregarExpediente.setBackground(new java.awt.Color(204, 255, 255));
         menuAgregarExpediente.setText("Agregar expediente");
+        menuAgregarExpediente.setBorder(null);
         menuAgregarExpediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAgregarExpedienteActionPerformed(evt);
             }
         });
-        jMenu1.add(menuAgregarExpediente);
+        menuExpediente.add(menuAgregarExpediente);
 
+        menuConsultarExpedientes.setBackground(new java.awt.Color(204, 255, 255));
         menuConsultarExpedientes.setText("Consultar Expedientes");
+        menuConsultarExpedientes.setBorder(null);
         menuConsultarExpedientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuConsultarExpedientesActionPerformed(evt);
             }
         });
-        jMenu1.add(menuConsultarExpedientes);
+        menuExpediente.add(menuConsultarExpedientes);
 
-        Menu.add(jMenu1);
+        Menu.add(menuExpediente);
 
         menuBar.add(Menu);
 
@@ -155,10 +170,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Menu;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem menuAgregarExpediente;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuConsultarExpedientes;
+    private javax.swing.JMenu menuExpediente;
     // End of variables declaration//GEN-END:variables
 }
