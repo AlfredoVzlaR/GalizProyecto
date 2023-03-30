@@ -52,7 +52,6 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     
     private String telefonoSeleccionado(){
         int indice = comboBoxClientes.getSelectedIndex();
-        
         if (indice != -1) {
             String telefono = comboBoxClientes.getModel().getElementAt(indice).getTelefono();
             return telefono;
@@ -78,6 +77,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         dto.setCosmeticosUso("");
         dto.setDiagnosticoPiel("");
         dto.setNombreCliente("");
+        dto.setTelefonoCliente("");
     }
     
     private void agregarExpediente(){
@@ -148,15 +148,16 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     }
     
     private void eliminarExpediente(){
+        desSetear();
         ctrl = new ctrlExpedientes();
-        
         if(areaCosmeticos.getText().isEmpty()&&areaPatologicos.getText().isEmpty()&&areaPersonales.getText().isEmpty()
                 &&areaPiel.getText().isEmpty()&&clientesComboBoxModel.getSize()==0){
             JOptionPane.showMessageDialog(this, "No hay expediente que eliminar","Error",JOptionPane.ERROR_MESSAGE);       
             return;
         }
         if(clientesComboBoxModel.getElementAt(0)!=null){
-            dto.setNombreCliente(clientesComboBoxModel.getElementAt(0).getNombre());
+            int ou = clientesComboBoxModel.getIndexOf(clientesComboBoxModel.getSelectedItem());
+            dto.setNombreCliente(clientesComboBoxModel.getElementAt(ou).getNombre());
             dto.setTelefonoCliente(clientesComboBoxModel.getElementAt(0).getTelefono());
         }
         if(!areaPatologicos.getText().isEmpty()){
