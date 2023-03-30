@@ -24,7 +24,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     ExpedienteDTO dto = new ExpedienteDTO();
     ctrlExpedientes ctrl;
     DefaultComboBoxModel<ClienteDTO> clientesComboBoxModel = new DefaultComboBoxModel<>();
-    List<ClienteDTO> listaClientes = new ArrayList<>();
+    List<ClienteDTO> listaClientes=null;
     CtrlClientes ctrlClientes;
     /**
      * Creates new form FrmDatosExpedientes
@@ -33,12 +33,14 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         initComponents();
         ctrlClientes = new CtrlClientes();
         jPanel2.setBackground(Color.WHITE);
+        listaClientes = new ArrayList<>();
+        listaClientes = ctrlClientes.consultarClientes();
         llenarComboBox();
+        
     }
     
     private void llenarComboBox() {
         clientesComboBoxModel.removeAllElements();
-        listaClientes = ctrlClientes.consultarClientes();
         clientesComboBoxModel.addAll(listaClientes);
     }
     
