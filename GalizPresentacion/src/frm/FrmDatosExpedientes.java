@@ -9,6 +9,7 @@ import DTO.ExpedienteDTO;
 import controles.CtrlClientes;
 import controles.ctrlExpedientes;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     ExpedienteDTO dto = new ExpedienteDTO();
     ctrlExpedientes ctrl;
     DefaultComboBoxModel<ClienteDTO> clientesComboBoxModel = new DefaultComboBoxModel<>();
-    List<ClienteDTO> listaClientes = null;
+    List<ClienteDTO> listaClientes = new ArrayList<>();
     CtrlClientes ctrlClientes;
     /**
      * Creates new form FrmDatosExpedientes
@@ -35,19 +36,8 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         llenarComboBox();
     }
     
-    public DefaultComboBoxModel clientesComboBoxModel(List<ClienteDTO> listaClientes) {
-        DefaultComboBoxModel<ClienteDTO> defaultComboBoxModel = new DefaultComboBoxModel<>();
-        if (listaClientes != null) {
-            // Para cada elemento de la Lista
-            for (int i = 0; i < listaClientes.size(); i++) {
-                // Agregalo a la instancia de la clase DefaultComboBoxModel
-                defaultComboBoxModel.addElement(listaClientes.get(i));
-            }
-            return defaultComboBoxModel;
-        }
-        return null;
-    }
     private void llenarComboBox() {
+        clientesComboBoxModel.removeAllElements();
         listaClientes = ctrlClientes.consultarClientes();
         clientesComboBoxModel.addAll(listaClientes);
     }
@@ -98,6 +88,9 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
             ClienteDTO cDTO = cliente(telefonoSeleccionado());
             dto.setNombreCliente(cDTO.getNombre());
             dto.setTelefonoCliente(cDTO.getTelefono());
+        }else{
+            JOptionPane.showMessageDialog(this, "No se eligió el cliente","Error",JOptionPane.ERROR_MESSAGE);
+            return;
         }
         if(!areaPatologicos.getText().isEmpty()){
             dto.setAntecedentesPatologicos(areaPatologicos.getText());
@@ -174,6 +167,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         if(ctrl.eliminarExpediente(dto)){
             JOptionPane.showMessageDialog(this, "El expediente se eliminó correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);       
             limpiar();
+            llenarComboBox();
         }
     }
     
