@@ -165,7 +165,15 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         if(!areaPiel.getText().isEmpty()){
             dto.setDiagnosticoPiel(areaPiel.getText());
         }
-        
+        if(clientesComboBoxModel.getSelectedItem()==null){
+            JOptionPane.showMessageDialog(this, "Se tiene que seleccionar cliente para poder eliminar","Error",JOptionPane.ERROR_MESSAGE);       
+            return;
+        }else{
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el expediente?", "Comprobación de eliminación.", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.NO_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
+                return;
+            }
+        }
         if(ctrl.eliminarExpediente(dto)){
             JOptionPane.showMessageDialog(this, "El expediente se eliminó correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);       
             limpiar();
