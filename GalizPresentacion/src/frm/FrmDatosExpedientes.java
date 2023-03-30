@@ -155,10 +155,20 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay expediente que eliminar","Error",JOptionPane.ERROR_MESSAGE);       
             return;
         }
+        int ou = clientesComboBoxModel.getIndexOf(clientesComboBoxModel.getSelectedItem());
+        ExpedienteDTO dto2=null;
+        
+        dto2=ctrl.consultarExpediente(clientesComboBoxModel.getElementAt(ou).getTelefono());
+        
+        if(dto2==null){
+            JOptionPane.showMessageDialog(this, "Este cliente no tiene expediente a eliminar","Error",JOptionPane.ERROR_MESSAGE);       
+            return;
+        }
+        
         if(clientesComboBoxModel.getElementAt(0)!=null){
-            int ou = clientesComboBoxModel.getIndexOf(clientesComboBoxModel.getSelectedItem());
+            
             dto.setNombreCliente(clientesComboBoxModel.getElementAt(ou).getNombre());
-            dto.setTelefonoCliente(clientesComboBoxModel.getElementAt(0).getTelefono());
+            dto.setTelefonoCliente(clientesComboBoxModel.getElementAt(ou).getTelefono());
         }
         if(!areaPatologicos.getText().isEmpty()){
             dto.setAntecedentesPatologicos(areaPatologicos.getText());
