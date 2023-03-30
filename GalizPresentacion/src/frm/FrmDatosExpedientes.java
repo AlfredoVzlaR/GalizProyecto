@@ -31,6 +31,12 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
      */
     public FrmDatosExpedientes() {
         initComponents();
+        menu.setOpaque(true);
+        menu.setBackground(Color.decode("#C5FFF3"));
+        principal.setOpaque(true);
+        principal.setBackground(Color.decode("#FFC5C5"));
+        consultas.setOpaque(true);
+        consultas.setBackground(Color.decode("#FFC5C5"));
         ctrlClientes = new CtrlClientes();
         jPanel2.setBackground(Color.WHITE);
         listaClientes = new ArrayList<>();
@@ -217,9 +223,9 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         comboBoxClientes = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menu = new javax.swing.JMenu();
+        principal = new javax.swing.JMenuItem();
+        consultas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos expedientes");
@@ -351,25 +357,25 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Menú principal");
+        menu.setText("Menú principal");
 
-        jMenuItem1.setText("Menú principal");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        principal.setText("Menú principal");
+        principal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                principalActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menu.add(principal);
 
-        jMenuItem2.setText("Expedientes");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        consultas.setText("Expedientes");
+        consultas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                consultasActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        menu.add(consultas);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menu);
 
         setJMenuBar(jMenuBar1);
 
@@ -406,15 +412,15 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
         eliminarExpediente();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void principalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalActionPerformed
         dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_principalActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void consultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultasActionPerformed
         FrmExpedientes frm = new FrmExpedientes();
         frm.setVisible(true);
         dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_consultasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -460,20 +466,20 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     public static javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<ClienteDTO> comboBoxClientes;
+    private javax.swing.JMenuItem consultas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JMenu menu;
+    private javax.swing.JMenuItem principal;
     // End of variables declaration//GEN-END:variables
 }
