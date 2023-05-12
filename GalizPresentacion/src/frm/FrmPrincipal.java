@@ -1,17 +1,22 @@
 package frm;
 
-import java.awt.Color;
-import javax.swing.UIManager;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
- * @author Dianey Elisa Velasquez Busani - 00000228270
+ * @author Paulina Cortez Alamilla
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
@@ -20,23 +25,135 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-        menuAgregarExpediente.setOpaque(true);
-        menuAgregarExpediente.setBackground(Color.decode("#FFC5C5"));
-        menuConsultarExpedientes.setOpaque(true);
-        menuConsultarExpedientes.setBackground(Color.decode("#FFC5C5"));
-        menuConsultarCitas.setOpaque(true);
-        menuConsultarCitas.setBackground(Color.decode("#FFC5C5"));
-        menuAgendarCitas.setOpaque(true);
-        menuAgendarCitas.setBackground(Color.decode("#FFC5C5"));
-        Menu.setOpaque(true);
-        Menu.setBackground(Color.decode("#C5FFF3"));
-        menuCitas.setOpaque(true);
-        menuCitas.setBackground(Color.decode("#C5FFF3"));
-        menuExpediente.setOpaque(true);
-        menuExpediente.setBackground(Color.decode("#C5FFF3"));
-        UIManager.put("MenuBar.background", Color.RED);
-    }
+        ajustesPantalla();
 
+        // Crear el submenú para la etiqueta "clientes"
+        JPopupMenu clientesSubMenu = new JPopupMenu();
+        JMenuItem agregarClienteItem = new JMenuItem("Agregar cliente");
+        JMenuItem consultarClientesItem = new JMenuItem("Consultar clientes");
+        clientesSubMenu.add(agregarClienteItem);
+        clientesSubMenu.add(consultarClientesItem);
+
+        // Asociar el submenú a la etiqueta "clientes"
+        clientes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                clientesSubMenu.show(clientes, e.getX(), e.getY());
+            }
+        });
+
+        // Agregar la etiqueta "clientes" al panel
+        jPanel1.add(clientes);
+
+        // Crear el submenú para la etiqueta "expedientes"
+        JPopupMenu expedientesSubMenu = new JPopupMenu();
+        JMenuItem agregarExpedienteItem = new JMenuItem("Agregar expediente");
+        JMenuItem consultarExpedientesItem = new JMenuItem("Consultar expedientes");
+        expedientesSubMenu.add(agregarExpedienteItem);
+        expedientesSubMenu.add(consultarExpedientesItem);
+
+        // Agregar el método oyente al item "Agregar expediente"
+        agregarExpedienteItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Acciones a realizar cuando se selecciona "Agregar expediente"
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new FrmDatosExpedientes().setVisible(true);
+                    }
+                });
+                System.out.println("Seleccionaste 'Agregar expediente'");
+            }
+        });
+
+        // Agregar el método oyente al item "Consultar expedientes"
+        consultarExpedientesItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Acciones a realizar cuando se selecciona "Consultar expedientes"
+                java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmExpedientes().setVisible(true);
+            }
+        });
+                System.out.println("Seleccionaste 'Consultar expedientes'");
+            }
+        });
+
+        // Asociar el submenú a la etiqueta "expedientes"
+        expedientes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                expedientesSubMenu.show(expedientes, e.getX(), e.getY());
+            }
+        });
+
+        // Agregar la etiqueta "expedientes" al panel
+        jPanel1.add(expedientes);
+
+        // Crear el submenú para la etiqueta "clientes"
+        JPopupMenu citasSubMenu = new JPopupMenu();
+        JMenuItem agregarCitaItem = new JMenuItem("Agregar cita");
+        JMenuItem consultarCitaItem = new JMenuItem("Consultar cita");
+        citasSubMenu.add(agregarCitaItem);
+        citasSubMenu.add(consultarCitaItem);
+
+        // Asociar el submenú a la etiqueta "clientes"
+        citas.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                citasSubMenu.show(citas, e.getX(), e.getY());
+            }
+        });
+
+        // Agregar la etiqueta "citas" al panel
+        jPanel1.add(citas);
+
+        // Crear el submenú para la etiqueta "servicios"
+        JPopupMenu serviciosSubMenu = new JPopupMenu();
+        JMenuItem agregarServiciosItem = new JMenuItem("Agregar servicios");
+        JMenuItem consultarServiciosItem = new JMenuItem("Consultar servicios");
+        serviciosSubMenu.add(agregarServiciosItem);
+        serviciosSubMenu.add(consultarServiciosItem);
+
+        // Asociar el submenú a la etiqueta "citas"
+        sevicios.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                serviciosSubMenu.show(sevicios, e.getX(), e.getY());
+            }
+        });
+
+        // Agregar la etiqueta "servicios" al panel
+        jPanel1.add(sevicios);
+
+        // Crear el submenú para la etiqueta "finanzas"
+        JPopupMenu finanzasSubMenu = new JPopupMenu();
+        JMenuItem agregarFinanzasItem = new JMenuItem("Agregar finanza");
+        JMenuItem consultarFianzasItem = new JMenuItem("Consultar finanzas");
+        finanzasSubMenu.add(agregarFinanzasItem);
+        finanzasSubMenu.add(consultarFianzasItem);
+
+        // Asociar el submenú a la etiqueta "finanzas"
+        finanzas.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                finanzasSubMenu.show(finanzas, e.getX(), e.getY());
+            }
+        });
+
+        // Agregar la etiqueta "finanzas" al panel
+        jPanel1.add(finanzas);
+        
+        
+    }
+    
+    private void ajustesPantalla() {
+        // Establecer las dimensiones de la ventana
+        int width = 1050;
+        int height = 575;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - width) / 2;
+        int y = (screenSize.height - height) / 2;
+        setBounds(x, y, width, height);
+
+        // Evitar que se pueda redimensionar la ventana
+        setResizable(false);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,7 +164,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        sevicios = new javax.swing.JLabel();
+        citas = new javax.swing.JLabel();
+        finanzas = new javax.swing.JLabel();
+        clientes = new javax.swing.JLabel();
+        expedientes = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         Menu = new javax.swing.JMenu();
         menuExpediente = new javax.swing.JMenu();
@@ -60,19 +182,59 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Galiz Estudio");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.jpg"))); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.jpg"))); // NOI18N
+
+        sevicios.setText("servicios");
+        sevicios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        citas.setText("citas");
+        citas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        finanzas.setText("finanzas");
+        finanzas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        clientes.setText("clientes");
+        clientes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        expedientes.setText("expedientes");
+        expedientes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(expedientes, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(citas, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sevicios, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(finanzas, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(citas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(expedientes, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                    .addComponent(clientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sevicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(finanzas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         menuBar.setBackground(new java.awt.Color(255, 216, 206));
@@ -191,7 +353,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -206,6 +368,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -217,7 +380,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Menu;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel citas;
+    private javax.swing.JLabel clientes;
+    private javax.swing.JLabel expedientes;
+    private javax.swing.JLabel finanzas;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem menuAgendarCitas;
     private javax.swing.JMenuItem menuAgregarExpediente;
@@ -226,5 +393,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuConsultarCitas;
     private javax.swing.JMenuItem menuConsultarExpedientes;
     private javax.swing.JMenu menuExpediente;
+    private javax.swing.JLabel sevicios;
     // End of variables declaration//GEN-END:variables
 }
