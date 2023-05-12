@@ -29,6 +29,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="367" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="btnEliminarCita" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -54,7 +55,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane1" min="-2" pref="192" max="-2" attributes="0"/>
-                      <EmptySpace pref="132" max="32767" attributes="0"/>
+                      <EmptySpace pref="103" max="32767" attributes="0"/>
+                      <Component id="btnEliminarCita" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -121,6 +124,14 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Detalles citas"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEliminarCita">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Eliminar cita"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarCitaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

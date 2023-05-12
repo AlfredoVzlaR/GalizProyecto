@@ -123,7 +123,6 @@ public class CtrlCitas {
     }
     
     public boolean cancelarCita(Citas cita){
-        return citaDAO.eliminarCita(cita);
+        return citaDAO.eliminarCita(cita.getId());
     }
-
 }
