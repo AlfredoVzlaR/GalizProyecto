@@ -305,7 +305,7 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 14)); // NOI18N
         jLabel1.setText("Nombre cliente:");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 28, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         areaCosmeticos.setColumns(20);
         areaCosmeticos.setRows(5);

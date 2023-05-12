@@ -47,7 +47,6 @@ public class FrmExpedientes extends javax.swing.JFrame {
         Font font = tablaExpedientes.getTableHeader().getFont().deriveFont(Font.BOLD);
         headerRenderer.setFont(font);
         tablaExpedientes.getTableHeader().setDefaultRenderer(headerRenderer);
-        tablaExpedientes.setBackground(Color.WHITE);
         llenarTabla();
     }
     
@@ -150,16 +149,16 @@ public class FrmExpedientes extends javax.swing.JFrame {
 
         panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Corbel", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
         jLabel1.setText("Cliente:");
-        panel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 52, 52, -1));
+        panel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
         txtClienteBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtClienteBuscarActionPerformed(evt);
             }
         });
-        panel.add(txtClienteBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 47, 850, -1));
+        panel.add(txtClienteBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 47, 820, -1));
 
         btnBuscarExpedienteCliente.setBackground(new java.awt.Color(232, 244, 255));
         btnBuscarExpedienteCliente.setText("Buscar");
