@@ -69,10 +69,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Acciones a realizar cuando se selecciona "Consultar expedientes"
                 java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmExpedientes().setVisible(true);
-            }
-        });
+                    public void run() {
+                        new FrmExpedientes().setVisible(true);
+                    }
+                });
                 System.out.println("Seleccionaste 'Consultar expedientes'");
             }
         });
@@ -87,14 +87,40 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // Agregar la etiqueta "expedientes" al panel
         jPanel1.add(expedientes);
 
-        // Crear el submenú para la etiqueta "clientes"
+        // Crear el submenú para la etiqueta "citas"
         JPopupMenu citasSubMenu = new JPopupMenu();
         JMenuItem agregarCitaItem = new JMenuItem("Agregar cita");
         JMenuItem consultarCitaItem = new JMenuItem("Consultar cita");
         citasSubMenu.add(agregarCitaItem);
         citasSubMenu.add(consultarCitaItem);
 
-        // Asociar el submenú a la etiqueta "clientes"
+        // Agregar el método oyente al item "Agregar cita"
+        agregarCitaItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Acciones a realizar cuando se selecciona "Agregar cita"
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new FrmCita().setVisible(true);
+                    }
+                });
+                System.out.println("Seleccionaste 'Agregar cita'");
+            }
+        });
+
+        // Agregar el método oyente al item "Consultar cita"
+        consultarCitaItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Acciones a realizar cuando se selecciona "Consultar cita"
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new DetallesCitas().setVisible(true);
+                    }
+                });
+                System.out.println("Seleccionaste 'Consultar cita'");
+            }
+        });
+
+        // Asociar el submenú a la etiqueta "citas"
         citas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 citasSubMenu.show(citas, e.getX(), e.getY());
@@ -111,7 +137,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         serviciosSubMenu.add(agregarServiciosItem);
         serviciosSubMenu.add(consultarServiciosItem);
 
-        // Asociar el submenú a la etiqueta "citas"
+        // Asociar el submenú a la etiqueta "servicios"
         sevicios.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 serviciosSubMenu.show(sevicios, e.getX(), e.getY());
