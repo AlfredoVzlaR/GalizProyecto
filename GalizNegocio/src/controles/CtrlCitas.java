@@ -115,6 +115,34 @@ public class CtrlCitas {
         }
         return citas2;
     }
+    public List<CitasClienteDTO> consultarCitasHoy(){
+        List<Citas> citas = new ArrayList<>();
+        citas.addAll(citaDAO.consultarCitasHoy());
+        List<CitasClienteDTO> citas2 = new ArrayList<>();
+        for(int i=0;i<citas.size();i++){
+            citas2.add(converter.fromEntity(citas.get(i)));
+        }
+        return citas2;
+    }
+    public List<CitasClienteDTO> consultarTodas(){
+        List<Citas> citas = new ArrayList<>();
+        citas.addAll(citaDAO.consultarTodas());
+        List<CitasClienteDTO> citas2 = new ArrayList<>();
+        for(int i=0;i<citas.size();i++){
+            citas2.add(converter.fromEntity(citas.get(i)));
+        }
+        return citas2;
+    }
+    
+    public List<CitasClienteDTO> consultarCitasFecha(Date date){
+        List<Citas> citas = new ArrayList<>();
+        citas.addAll(citaDAO.consultarCitasPorFecha(date));
+        List<CitasClienteDTO> citas2 = new ArrayList<>();
+        for(int i=0;i<citas.size();i++){
+            citas2.add(converter.fromEntity(citas.get(i)));
+        }
+        return citas2;
+    }
     
     public CitasClienteDTO consultarCita(ObjectId id){
         Citas cita = citaDAO.consultarCita(id);

@@ -15,6 +15,8 @@ import controles.CtrlServicios;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -24,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -49,7 +52,8 @@ public class FrmCita extends javax.swing.JFrame {
         initComponents();
         elegidos = new ArrayList<>();
         ctrlClientes = new CtrlClientes();
-        ctrlCitas = new  CtrlCitas();
+        ((JTextComponent) this.fechaEvento.getDateEditor()).setEditable(false);
+        ctrlCitas = new CtrlCitas();
         converterCliente = new ClienteConverter();
         ctrlServicios = new CtrlServicios();
         listaClientes = new LinkedList<>();
@@ -100,19 +104,17 @@ public class FrmCita extends javax.swing.JFrame {
     public void llenarTablaElegidos() {
         ServicioDTO servicio = ctrlServicios.consultarServicio(nombreservicio());
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaElegidos.getModel();
-        
-        
 
-        if(elegidos.contains(ctrlServicios.consultarServicio(nombreservicio()))){
+        if (elegidos.contains(ctrlServicios.consultarServicio(nombreservicio()))) {
             JOptionPane.showMessageDialog(this, "El servicio ya fue añadido");
             return;
-        }else{
+        } else {
             elegidos.add(servicio);
-        Object[] fila = new Object[2];
-        fila[0] = servicio.getNombre();
-        fila[1] = servicio.getCosto();
-        modeloTabla.addRow(fila);
-        
+            Object[] fila = new Object[2];
+            fila[0] = servicio.getNombre();
+            fila[1] = servicio.getCosto();
+            modeloTabla.addRow(fila);
+
         }
     }
 
@@ -139,9 +141,9 @@ public class FrmCita extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Se requiere seleccionar cliente, hora y fecha y servicios");
             return false;
         } else {
-            
-            if(validarFecha(fechaEvento.getDate())){
-                JOptionPane.showMessageDialog(this, "No se pueden agendar citas anterior a este día.");
+
+            if (!validarFecha(fechaEvento.getDate())) {
+                JOptionPane.showMessageDialog(this, "La fecha de la cita debe ser igual o posterior a la fecha actual.");
                 return false;
             }
 
@@ -154,7 +156,6 @@ public class FrmCita extends javax.swing.JFrame {
             String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
 
             Date fecha1 = Timestamp.valueOf(fechaHora);
-
 
             int dia, mes, año;
 
@@ -169,26 +170,26 @@ public class FrmCita extends javax.swing.JFrame {
             Date dateTime = new Date(año, mes, dia, horas, minuto);
 
             Timestamp timestamp;
-            
+
             CitasClienteDTO cita = new CitasClienteDTO();
-            
+
             cita.setCliente(converterCliente.fromDto((ClienteDTO) comboBoxCliente.getSelectedItem()));
             cita.setFecha(fecha1);
             ServicioConverter serv = new ServicioConverter();
             cita.setServicios(serv.convertirLista(elegidos));
-            
-            if(ctrlCitas.agregarCita(cita)){
+
+            if (ctrlCitas.agregarCita(cita)) {
                 JOptionPane.showMessageDialog(this, "Se agregó la cita correctamente");
                 limpiarTablaElegidos();
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
     }
-    
-    private void limpiarTablaElegidos(){
-        DefaultTableModel modeloTabla = (DefaultTableModel)this.tablaElegidos.getModel();
+
+    private void limpiarTablaElegidos() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaElegidos.getModel();
         modeloTabla.setRowCount(0);
         elegidos.removeAll(elegidos);
         txtHora.setText("");
@@ -199,9 +200,11 @@ public class FrmCita extends javax.swing.JFrame {
     private void llenarComboBox() {
         clientesComboBoxModel.addAll(listaClientes);
     }
-    
-    private Boolean validarFecha(Date date){
-        return date.before(new Date());
+
+    private Boolean validarFecha(Date date) {
+        LocalDate fechaCita = date.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+        LocalDate fechaHoy = LocalDate.now();
+        return fechaCita.isEqual(fechaHoy) || fechaCita.isAfter(fechaHoy);
     }
 
     /**
@@ -405,7 +408,6 @@ public class FrmCita extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

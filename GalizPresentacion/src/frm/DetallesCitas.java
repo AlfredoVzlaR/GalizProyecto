@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import org.bson.types.ObjectId;
 
 /**
@@ -38,6 +39,7 @@ public class DetallesCitas extends javax.swing.JFrame {
     public DetallesCitas() {
         initComponents();
         ctrlCitas = new CtrlCitas();
+        ((JTextComponent) this.jDateChooser1.getDateEditor()).setEditable(false);
         converterCita = new CitasClienteConverter();
         ctrlClientes = new CtrlClientes();
         converterCliente = new ClienteConverter();
@@ -92,7 +94,64 @@ public class DetallesCitas extends javax.swing.JFrame {
     }
     
     private void llenarTablaCitas(){
+        List<CitasClienteDTO> listaEventos  = this.ctrlCitas.consultarCitasHoy();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.jTable1.getModel();
+        modeloTabla.setRowCount(0);
+        listaEventos.forEach(evento ->
+                {
+                    Object[]fila = new Object[4];
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String fecha1 = dateFormat.format(evento.getFecha());
+                    fila[0]=evento.getCliente().getNombre().toString();
+                    fila[1]=fecha1;
+                    fila[2]=evento.getCliente().getTelefono();
+                    fila[3]=evento.getId();
+                    modeloTabla.addRow(fila);
+                });
+    }
+    private void llenarPosteriores(){
         List<CitasClienteDTO> listaEventos  = this.ctrlCitas.consultarCitas();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.jTable1.getModel();
+        modeloTabla.setRowCount(0);
+        listaEventos.forEach(evento ->
+                {
+                    Object[]fila = new Object[4];
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String fecha1 = dateFormat.format(evento.getFecha());
+                    fila[0]=evento.getCliente().getNombre().toString();
+                    fila[1]=fecha1;
+                    fila[2]=evento.getCliente().getTelefono();
+                    fila[3]=evento.getId();
+                    modeloTabla.addRow(fila);
+                });
+    }
+    private void llenarTodas(){
+        List<CitasClienteDTO> listaEventos  = this.ctrlCitas.consultarTodas();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.jTable1.getModel();
+        modeloTabla.setRowCount(0);
+        listaEventos.forEach(evento ->
+                {
+                    Object[]fila = new Object[4];
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String fecha1 = dateFormat.format(evento.getFecha());
+                    fila[0]=evento.getCliente().getNombre().toString();
+                    fila[1]=fecha1;
+                    fila[2]=evento.getCliente().getTelefono();
+                    fila[3]=evento.getId();
+                    modeloTabla.addRow(fila);
+                });
+    }
+    private void llenarPorFecha(){
+        
+        if(jDateChooser1.getDate()==null){
+            JOptionPane.showMessageDialog(this, "Debes ingresar una fecha","Alerta",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        List<CitasClienteDTO> listaEventos  = this.ctrlCitas.consultarCitasFecha(jDateChooser1.getDate());
         
         DefaultTableModel modeloTabla = (DefaultTableModel)this.jTable1.getModel();
         modeloTabla.setRowCount(0);
@@ -151,6 +210,7 @@ public class DetallesCitas extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel)this.jTable1.getModel();
         modeloTabla.setRowCount(0);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -168,6 +228,10 @@ public class DetallesCitas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnEliminarCita = new javax.swing.JButton();
+        btnConsultarTodas = new javax.swing.JButton();
+        btnTodas = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        btnPorFecha = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalles citas");
@@ -248,39 +312,74 @@ public class DetallesCitas extends javax.swing.JFrame {
             }
         });
 
+        btnConsultarTodas.setText("Posteriores");
+        btnConsultarTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarTodasActionPerformed(evt);
+            }
+        });
+
+        btnTodas.setText("Todas");
+        btnTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodasActionPerformed(evt);
+            }
+        });
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+
+        btnPorFecha.setText("Fecha");
+        btnPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPorFechaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarCita))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPorFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConsultarTodas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTodas))
+                    .addComponent(btnEliminarCita)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(btnTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnConsultarTodas)
+                        .addComponent(btnPorFecha))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminarCita)
                         .addContainerGap())
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)))
         );
 
         pack();
@@ -307,13 +406,31 @@ public class DetallesCitas extends javax.swing.JFrame {
         eliminarCita();
     }//GEN-LAST:event_btnEliminarCitaActionPerformed
 
+    private void btnConsultarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarTodasActionPerformed
+        limpiarTablaDetalles();
+        llenarPosteriores();
+    }//GEN-LAST:event_btnConsultarTodasActionPerformed
+
+    private void btnTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodasActionPerformed
+        limpiarTablaDetalles();
+        llenarTodas();
+    }//GEN-LAST:event_btnTodasActionPerformed
+
+    private void btnPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorFechaActionPerformed
+        llenarPorFecha();
+    }//GEN-LAST:event_btnPorFechaActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultarTodas;
     private javax.swing.JButton btnEliminarCita;
+    private javax.swing.JButton btnPorFecha;
+    private javax.swing.JButton btnTodas;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
