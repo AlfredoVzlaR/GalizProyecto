@@ -9,9 +9,15 @@ import DTO.ExpedienteDTO;
 import controles.CtrlClientes;
 import controles.ctrlExpedientes;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,17 +25,44 @@ import javax.swing.table.DefaultTableModel;
  * @author jvale
  */
 public class FrmExpedientes extends javax.swing.JFrame {
+
     ctrlExpedientes ctrl;
     CtrlClientes ctrlClientes;
+
     /**
      * Creates new form FrmExpedientes
      */
     public FrmExpedientes() {
         initComponents();
+        ajustesPantalla();
         panel.setBackground(Color.WHITE);
         tablaExpedientes.setRowHeight(25);
         tablaExpedientes.setBackground(Color.WHITE);
+
+        // Personalizar colores de los encabezados
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        Color colorTurquesa = new Color(196, 253, 239);
+        headerRenderer.setBackground(colorTurquesa);
+        headerRenderer.setForeground(Color.black);
+        Font font = tablaExpedientes.getTableHeader().getFont().deriveFont(Font.BOLD);
+        headerRenderer.setFont(font);
+        tablaExpedientes.getTableHeader().setDefaultRenderer(headerRenderer);
+        tablaExpedientes.setBackground(Color.WHITE);
         llenarTabla();
+    }
+    
+    
+     private void ajustesPantalla() {
+        // Establecer las dimensiones de la ventana
+        int width = 1050;
+        int height = 575;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - width) / 2;
+        int y = (screenSize.height - height) / 2;
+        setBounds(x, y, width, height);
+
+        // Evitar que se pueda redimensionar la ventana
+        setResizable(false);
     }
     
     private void llenarTabla(){
@@ -115,14 +148,18 @@ public class FrmExpedientes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Expedientes");
 
+        panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 14)); // NOI18N
         jLabel1.setText("Cliente:");
+        panel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 52, 52, -1));
 
         txtClienteBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtClienteBuscarActionPerformed(evt);
             }
         });
+        panel.add(txtClienteBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 47, 850, -1));
 
         btnBuscarExpedienteCliente.setBackground(new java.awt.Color(232, 244, 255));
         btnBuscarExpedienteCliente.setText("Buscar");
@@ -131,6 +168,7 @@ public class FrmExpedientes extends javax.swing.JFrame {
                 btnBuscarExpedienteClienteActionPerformed(evt);
             }
         });
+        panel.add(btnBuscarExpedienteCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 70, 30));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,43 +210,11 @@ public class FrmExpedientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaExpedientes);
 
+        panel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 88, 1000, 390));
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Expedientes");
-
-        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
-        panel.setLayout(panelLayout);
-        panelLayout.setHorizontalGroup(
-            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarExpedienteCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelLayout.setVerticalGroup(
-            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarExpedienteCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(110, 110, 110))
-        );
+        panel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, -1, -1));
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
 
