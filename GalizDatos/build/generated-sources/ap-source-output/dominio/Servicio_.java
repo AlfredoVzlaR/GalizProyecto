@@ -1,0 +1,16 @@
+package dominio;
+
+import javax.annotation.processing.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-05-11T11:31:39", comments="EclipseLink-2.7.10.v20211216-rNA")
+@StaticMetamodel(Servicio.class)
+public class Servicio_ { 
+
+    public static volatile SingularAttribute<Servicio, String> descripcion;
+    public static volatile SingularAttribute<Servicio, Float> costo;
+    public static volatile SingularAttribute<Servicio, Long> id;
+    public static volatile SingularAttribute<Servicio, String> nombre;
+
+}

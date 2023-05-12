@@ -29,7 +29,7 @@ public class ConexionMongo implements IConexionBD{
     
     private MongoDatabase conexion=null;
 
-    private ConexionMongo() {
+    public ConexionMongo() {
     }
     public static ConexionMongo getInstance(){
         if(conexionBD==null){

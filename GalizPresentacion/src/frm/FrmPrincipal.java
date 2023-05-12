@@ -24,8 +24,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuAgregarExpediente.setBackground(Color.decode("#FFC5C5"));
         menuConsultarExpedientes.setOpaque(true);
         menuConsultarExpedientes.setBackground(Color.decode("#FFC5C5"));
+        menuConsultarCitas.setOpaque(true);
+        menuConsultarCitas.setBackground(Color.decode("#FFC5C5"));
+        menuAgendarCitas.setOpaque(true);
+        menuAgendarCitas.setBackground(Color.decode("#FFC5C5"));
         Menu.setOpaque(true);
         Menu.setBackground(Color.decode("#C5FFF3"));
+        menuCitas.setOpaque(true);
+        menuCitas.setBackground(Color.decode("#C5FFF3"));
         menuExpediente.setOpaque(true);
         menuExpediente.setBackground(Color.decode("#C5FFF3"));
         UIManager.put("MenuBar.background", Color.RED);
@@ -47,6 +53,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuExpediente = new javax.swing.JMenu();
         menuAgregarExpediente = new javax.swing.JMenuItem();
         menuConsultarExpedientes = new javax.swing.JMenuItem();
+        menuCitas = new javax.swing.JMenu();
+        menuAgendarCitas = new javax.swing.JMenuItem();
+        menuConsultarCitas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Galiz Estudio");
@@ -97,6 +106,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         Menu.add(menuExpediente);
 
+        menuCitas.setText("Citas");
+
+        menuAgendarCitas.setText("Agendar cita");
+        menuAgendarCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAgendarCitasActionPerformed(evt);
+            }
+        });
+        menuCitas.add(menuAgendarCitas);
+
+        menuConsultarCitas.setText("Consultar citas");
+        menuConsultarCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuConsultarCitasActionPerformed(evt);
+            }
+        });
+        menuCitas.add(menuConsultarCitas);
+
+        Menu.add(menuCitas);
+
         menuBar.add(Menu);
 
         setJMenuBar(menuBar);
@@ -131,6 +160,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_menuConsultarExpedientesActionPerformed
+
+    private void menuAgendarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendarCitasActionPerformed
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmCita().setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_menuAgendarCitasActionPerformed
+
+    private void menuConsultarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultarCitasActionPerformed
+        // TODO add your handling code here:
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new DetallesCitas().setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_menuConsultarCitasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,8 +219,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu Menu;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem menuAgendarCitas;
     private javax.swing.JMenuItem menuAgregarExpediente;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuCitas;
+    private javax.swing.JMenuItem menuConsultarCitas;
     private javax.swing.JMenuItem menuConsultarExpedientes;
     private javax.swing.JMenu menuExpediente;
     // End of variables declaration//GEN-END:variables

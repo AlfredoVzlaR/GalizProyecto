@@ -31,6 +31,9 @@ public class FrmDatosExpedientes extends javax.swing.JFrame {
      */
     public FrmDatosExpedientes() {
         initComponents();
+        btnGuardar.setBackground(Color.decode("#CC797B"));
+        btnEliminar.setBackground(Color.decode("#CC797B"));
+        btnCancelar.setBackground(Color.decode("#CC797B"));
         menu.setOpaque(true);
         menu.setBackground(Color.decode("#C5FFF3"));
         principal.setOpaque(true);

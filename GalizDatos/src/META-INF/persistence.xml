@@ -3,6 +3,9 @@
   <persistence-unit name="GalizDatosPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dominio.Cliente</class>
+    <class>dominio.Citas</class>
+    <class>dominio.Servicio</class>
+    <class>dominio.Cita</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/galizestudio?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
